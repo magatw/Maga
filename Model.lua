@@ -8,7 +8,13 @@
 
 -- CLASS
 --# assume global class M_Model
+--# assume global class M_Faction
 --# assume global class M_Region
+
+
+-- Model/Faction
+--# assume M_Model.getFaction: function(name: string) --> M_Faction
+--# assume M_Model.getPlayer: function() --> M_Faction
 
 -- Model/Region
 --# assume M_Model.getRegion: function(name: string) --> M_Region

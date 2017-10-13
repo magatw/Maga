@@ -13,6 +13,7 @@
 --# assume global class CA_Region
 --# assume global class CA_RegionManager
 --# assume global class CA_GarrisonResidence
+--# assume global class CA_Faction
 --# assume global class CA_UIC
 --# assume global class CA_Component
 --# assume global class CA_TimeTriggerContext
@@ -41,6 +42,7 @@
 
 
 -- WORLD
+--# assume CA_World.faction_by_key: method(key: string) --> CA_Faction
 --# assume CA_World.region_manager: method() --> CA_RegionManager
 
 
@@ -57,6 +59,13 @@
 --# assume CA_GarrisonResidence.is_under_siege: method() --> boolean
 
 
+-- FACTION
+--# assume CA_Faction.at_war_with: method(faction: CA_Faction) --> boolean
+--# assume CA_Faction.has_home_region: method() --> boolean
+--# assume CA_Faction.home_region: method() --> CA_Region
+--# assume CA_Faction.is_horde: method() --> boolean
+
+
 -- UIC
 --# assume CA_UIC.Visible: method() --> boolean
 
@@ -70,6 +79,7 @@
 --#     shouldRepeat: boolean
 --# )
 --# assume CM.add_time_trigger: method(name: string, duration: number)
+--# assume CM.get_local_faction: method() --> string
 --# assume CM.model: method() --> CA_Model
 --# assume CM.name: "main_attila"
 --# assume CM.remove_listener: method(handler: string)
