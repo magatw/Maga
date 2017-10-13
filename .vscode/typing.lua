@@ -9,15 +9,24 @@
 -- CLASS DECLARATION
 --# assume global class CM
 --# assume global class CA_UIC
+--# assume global class CA_Component
 --# assume global class CA_TimeTriggerContext
+--# assume global class CA_UIContext
 
 
 -- TYPES
---# type global CA_EventName = "TimeTrigger"
+--# type global CA_EventName = 
+--# "ComponentLClickUp"     | "TimeTrigger" |
+--# "PanelClosedCampaign"   | "PanelOpenedCampaign"
+
+
+--# type global CA_PanelName = ""
 
 
 -- CONTEXT
 --# assume CA_TimeTriggerContext.string: string
+--# assume CA_UIContext.component: CA_Component
+--# assume CA_UIContext.string: string
 
 
 -- CAMPAIGN MANAGER
