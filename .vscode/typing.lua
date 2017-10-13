@@ -9,6 +9,10 @@
 -- CLASS DECLARATION
 --# assume global class CM
 --# assume global class CA_Model
+--# assume global class CA_World
+--# assume global class CA_Region
+--# assume global class CA_RegionManager
+--# assume global class CA_GarrisonResidence
 --# assume global class CA_UIC
 --# assume global class CA_Component
 --# assume global class CA_TimeTriggerContext
@@ -17,8 +21,9 @@
 
 -- TYPES
 --# type global CA_EventName = 
---# "ComponentLClickUp"     | "TimeTrigger" |
---# "PanelClosedCampaign"   | "PanelOpenedCampaign"
+--# "ComponentLClickUp"     |
+--# "PanelClosedCampaign"   | "PanelOpenedCampaign" |
+--# "TimeTrigger"           | "UICreated"
 
 
 --# type global CA_PanelName = "diplomacy_dropdown"
@@ -32,6 +37,24 @@
 
 -- MODEL
 --# assume CA_Model.is_player_turn: method() --> boolean
+--# assume CA_Model.world: method() --> CA_World
+
+
+-- WORLD
+--# assume CA_World.region_manager: method() --> CA_RegionManager
+
+
+-- REGION MANAGER
+--# assume CA_RegionManager.region_by_key: method(key: string) --> CA_Region
+
+
+-- REGION
+--# assume CA_Region.garrison_residence: method() --> CA_GarrisonResidence
+--# assume CA_Region.name: method() --> string
+
+
+-- GARRISON RESIDENCE
+--# assume CA_GarrisonResidence.is_under_siege: method() --> boolean
 
 
 -- UIC
@@ -48,6 +71,7 @@
 --# )
 --# assume CM.add_time_trigger: method(name: string, duration: number)
 --# assume CM.model: method() --> CA_Model
+--# assume CM.name: "main_attila"
 --# assume CM.remove_listener: method(handler: string)
 --# assume CM.ui_root: method() --> CA_UIC
 

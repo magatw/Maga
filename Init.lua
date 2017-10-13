@@ -6,5 +6,6 @@
 -- ===========================================================================
 
 require("Model");
+require("Model/Region");
 
 require("UI/DiplomacyDropdown");

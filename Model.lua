@@ -8,6 +8,10 @@
 
 -- CLASS
 --# assume global class M_Model
+--# assume global class M_Region
+
+-- Model/Region
+--# assume M_Model.getRegion: function(name: string) --> M_Region
 
 
 local Model = {} --# assume Model: M_Model
