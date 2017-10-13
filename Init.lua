@@ -4,3 +4,5 @@
 --
 -- First file called by the game in campaign mode
 -- ===========================================================================
+
+require("UI/DiplomacyDropdown");

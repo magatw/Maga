@@ -20,7 +20,7 @@
 --# "PanelClosedCampaign"   | "PanelOpenedCampaign"
 
 
---# type global CA_PanelName = ""
+--# type global CA_PanelName = "diplomacy_dropdown"
 
 
 -- CONTEXT
