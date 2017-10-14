@@ -19,28 +19,32 @@ function RegionTrading.init()
     Console.log("Region Trading init done", "Logic");
 end
 
---v function(Region: M_Region) --> boolean
+--v function(Region: M_Region) --> (boolean, string)
 function RegionTrading.isTradablePlayer(Region)
-    if Region:IsUnderSiege() then return false end
+    if Region:IsUnderSiege() then
+        return false, "siege";
+    end
 
     local Capital = Player:Capital();
     if Capital and Capital:Name() == Region:Name() then
-        return false;
+        return false, "capital";
     end
 
-    return true;
+    return true, "tradable";
 end
 
---v function(Region: M_Region) --> boolean
+--v function(Region: M_Region) --> (boolean, string)
 function RegionTrading.isTradableAI(Region) 
-    if Region:IsUnderSiege() then return false end
+    if Region:IsUnderSiege() then 
+        return false, "siege";
+    end
 
     local Capital = AI:Capital();
     if Capital and Capital:Name() == Region:Name() then
-        return false;
+        return false, "capital";
     end
 
-    return true;
+    return true, "tradable";
 end
 
 
@@ -59,10 +63,30 @@ function RegionTrading.canTradeWithAI()
 end
 
 
+function RegionTrading.getRegionsList() 
+    local list = {} --: map<string, {owner: string, tradable: boolean, reason: string}>
+
+    for index, Region in ipairs(Player:Regions()) do 
+        local n = Region:Name();
+        local t, r = RegionTrading.isTradablePlayer(Region);
+        list[n] = {owner = "player", tradable = t, reason = r};
+    end
+
+    for index, Region in ipairs(AI:Regions()) do 
+        local n = Region:Name();
+        local t, r = RegionTrading.isTradableAI(Region);
+        list[n] = {owner = "ai", tradable = t, reason = r};
+    end
+
+    return list;
+end
+
+
 Event.addListener("UICreated", RegionTrading.init);
 
 
 return {
     canTradeWithAI = RegionTrading.canTradeWithAI;
+    getRegionsList = RegionTrading.getRegionsList;
     updateAIFaction = RegionTrading.updateAIFaction;
 }
