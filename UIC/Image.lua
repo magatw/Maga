@@ -62,12 +62,12 @@ end
 
 --v function(self: M_Image, e: UIC_EventName, cb: function())
 function Image.On(self, e, cb) 
-    Util.on(self:uic(), e, cb);
+    Util.on(self.uic, e, cb);
 end
 
 --v function(self: M_Image)
 function Image.Delete(self) 
-    Util.delete(self:uic(), true);
+    Util.delete(self.uic, true);
 end
 
 
