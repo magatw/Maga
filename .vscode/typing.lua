@@ -22,7 +22,7 @@
 
 -- TYPES
 --# type global CA_EventName = 
---# "ComponentLClickUp"     |
+--# "ComponentLClickUp"     | "ComponentMouseOn"    |
 --# "PanelClosedCampaign"   | "PanelOpenedCampaign" |
 --# "TimeTrigger"           | "UICreated"
 
@@ -67,6 +67,12 @@
 
 
 -- UIC
+--# assume CA_UIC.Address: method() --> CA_Component
+--# assume CA_UIC.Adopt: method(pointer: CA_Component)
+--# assume CA_UIC.ChildCount: method() --> number
+--# assume CA_UIC.CreateComponent: method(name: string, path: string)
+--# assume CA_UIC.DestroyChildren: method()
+--# assume CA_UIC.Find: method(arg: number | string) --> CA_Component
 --# assume CA_UIC.Visible: method() --> boolean
 
 
@@ -89,6 +95,7 @@
 -- GLOBAL FUNCTIONS
 --# assume global is_uicomponent: function(arg: any) --> boolean
 --# assume global find_uicomponent_by_table: function(uic: CA_UIC, path: vector<string>) --> CA_UIC
+--# assume global UIComponent: function(pointer: CA_Component) --> CA_UIC
 --# assume global uicomponent_to_str: function(uic: CA_UIC) --> string
 
 
