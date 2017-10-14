@@ -10,3 +10,4 @@ require("Model/Region");
 require("Model/Faction");
 
 require("UI/DiplomacyDropdown");
+require("UI/RegionTrading");
