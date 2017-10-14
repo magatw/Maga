@@ -94,6 +94,8 @@
 --# assume CA_UIC.SetStateText: method(text: string)
 --# assume CA_UIC.SetTooltipText: method(text: string)
 --# assume CA_UIC.SetVisible: method(visible: boolean)
+--# assume CA_UIC.ShaderTechniqueSet: method(technique: string | number, unknown: boolean)
+--# assume CA_UIC.ShaderVarsSet: method(p1: number, p2: number, p3: number, p4: number, unknown: boolean)
 --# assume CA_UIC.SimulateClick: method()
 --# assume CA_UIC.Visible: method() --> boolean
 
