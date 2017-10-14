@@ -6,7 +6,6 @@
 -- ===========================================================================
 
 --# assume global class M_Frame
---# assume M_Frame.bottomBar: method() --> CA_UIC
 
 local Console = require("Core/Console");
 local Util = require("UIC/Util");
@@ -19,6 +18,7 @@ function Frame.new(name, parent)
     root:CreateComponent(name, "ui/campaign ui/finance_screen");
 
     local frame = UIComponent(root:Find(name));
+    local scroll = UIComponent(frame:Find("scroll_frame"));
 
     Util.delete( UIComponent(frame:Find("TabGroup")) );
     Util.delete( UIComponent(frame:Find("button_info_holder")) );
@@ -33,8 +33,9 @@ function Frame.new(name, parent)
 
     --# assume self: M_Frame
 
-    self.uic = frame;
-    self.scroll = UIComponent(frame:Find("scroll_frame"));
+    self.uic = frame --: const
+    self.scroll = scroll --: const
+    self.hasBottomBar = false;
 
     Console.log("Create Frame "..name, "UIC");
 
@@ -50,7 +51,7 @@ end
 
 --v function(self: M_Frame)
 function Frame.AddBottomBar(self)
-    if self.bottomBar then return end
+    if self.hasBottomBar then return end
 
     local root = cm:ui_root();
     root:CreateComponent("MagaTemp", "ui/campaign ui/diplomacy_hud");
@@ -60,10 +61,9 @@ function Frame.AddBottomBar(self)
 
     self.uic:Adopt(bar:Address());
 
-    self.bottomBar = function(self) --: M_Frame
-        return bar;
-    end
-
+    self.bottomBar = bar --: const
+    self.hasBottomBar = true;
+    
     Util.delete(temp);
 end
 

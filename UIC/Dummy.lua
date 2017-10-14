@@ -34,7 +34,7 @@ function Dummy.new(parent)
 
     --# assume self: M_Dummy
 
-    self.uic = dummy;
+    self.uic = dummy --: const
 
     Console.log("Dummy created for parent: "..parent:Id(), "UIC");
 

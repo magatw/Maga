@@ -37,7 +37,7 @@ function Button.new(name, parent)
 
     --# assume self: M_Button
 
-    self.uic = button;
+    self.uic = button --: const
 
     Console.log("Create Button: "..name, "UIC");
 

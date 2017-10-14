@@ -31,7 +31,7 @@ function Image.new(name, parent)
 
     --# assume self: M_Image
 
-    self.uic = image;
+    self.uic = image --: const
 
     Console.log("Create Image: "..name, "UIC");
 

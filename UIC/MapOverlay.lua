@@ -26,7 +26,7 @@ function MapOverlay.new(tacticalMap)
 
     --# assume self: M_MapOverlay
 
-    self.map = tacticalMap;
+    self.map = tacticalMap --: const
     self.regions = {} --: map<string, M_Image>
 
     Console.log("Create Map Overlay", "UIC");

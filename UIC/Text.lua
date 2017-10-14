@@ -70,9 +70,9 @@ function Text.new(case, align, parent)
 
     --# assume self: M_Text
 
-    self.uic = text;
-    self.case = case;
-    self.align = align;
+    self.uic = text --: const
+    self.case = case --: const
+    self.align = align --: const
 
     self.text = "";
     self.color = Colors.brown;
