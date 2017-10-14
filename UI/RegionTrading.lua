@@ -9,6 +9,7 @@ local Console = require("Core/Console");
 local Button = require("UIC/Button");
 local Frame = require("UIC/Frame");
 local Panel = require("UI/Panel");
+local Util = require("UI/Util");
 
 local RegionTrading = {};
 local RTFrame = {};
@@ -24,8 +25,15 @@ function RegionTrading.init()
     UIC.factionCancel = find_uicomponent_by_table(UIC.diplo, {
         "faction_panel", "both_buttongroup", "button_cancel"
     })
+    UIC.speechBubble = find_uicomponent_by_table(UIC.diplo, {
+        "faction_right_status_panel", "speech_bubble"
+    })
 
     UIC.radar = find_uicomponent_by_table(root, {"campaign_tactical_map", "radar"});
+    UIC.tacticalHud = find_uicomponent_by_table(root, {"campaign_tactical_map", "tactical_hud"});
+    UIC.overlayCbox = UIComponent(UIC.tacticalHud:Find("checkbox_overlay"));
+    
+    RegionTrading.overlayState = UIC.overlayCbox:CurrentState();
 end
 
 
@@ -71,13 +79,25 @@ function RegionTrading.setUI(mode)
         if not UIC.radar:Visible() then
             UIC.toggleMap:SimulateClick();
         end
-        
+
         UIC.offer:SetVisible(false);
+        UIC.speechBubble:SetVisible(false);
+        UIC.tacticalHud:SetVisible(false);
+
+        if RegionTrading.overlayState ~= "active" then
+            UIC.overlayCbox:SimulateClick();
+        end
 
         Console.log("UI set for Region Trading", "UI");
     elseif mode == "close" then
         UIC.offer:SetVisible(true);
-      
+        UIC.speechBubble:SetVisible(true);
+        UIC.tacticalHud:SetVisible(true);
+
+        if RegionTrading.overlayState ~= "active" then
+            Util.clickWithState(UIC.overlayCbox, "hover");
+        end
+              
         Console.log("UI restore from Region Trading mod", "UI");
     end
 end
