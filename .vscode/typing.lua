@@ -81,6 +81,7 @@
 --# assume CA_UIC.MoveTo: method(x: number, y: number)
 --# assume CA_UIC.Position: method() --> (number, number)
 --# assume CA_UIC.Resize: method(w: number, h: number)
+--# assume CA_UIC.SetInteractive: method(interactive: boolean)
 --# assume CA_UIC.SetOpacity: method(opacity: number)
 --# assume CA_UIC.SetState: method(state: string)
 --# assume CA_UIC.SetStateText: method(text: string)
