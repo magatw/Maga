@@ -11,6 +11,7 @@
 --# assume global class CA_Model
 --# assume global class CA_World
 --# assume global class CA_Region
+--# assume global class CA_RegionList
 --# assume global class CA_RegionManager
 --# assume global class CA_GarrisonResidence
 --# assume global class CA_Faction
@@ -50,6 +51,11 @@
 --# assume CA_RegionManager.region_by_key: method(key: string) --> CA_Region
 
 
+-- REGION LIST
+--# assume CA_RegionList.item_at: method(index: number) --> CA_Region
+--# assume CA_RegionList.num_items: method() --> number
+
+
 -- REGION
 --# assume CA_Region.garrison_residence: method() --> CA_GarrisonResidence
 --# assume CA_Region.name: method() --> string
@@ -64,6 +70,7 @@
 --# assume CA_Faction.has_home_region: method() --> boolean
 --# assume CA_Faction.home_region: method() --> CA_Region
 --# assume CA_Faction.is_horde: method() --> boolean
+--# assume CA_Faction.region_list: method() --> CA_RegionList
 
 
 -- UIC

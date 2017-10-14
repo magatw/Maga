@@ -58,6 +58,20 @@ function Faction.IsHorde(self)
     return self:cai():is_horde();
 end
 
+--v function(self: M_Faction) --> vector<M_Region>
+function Faction.Regions(self) 
+    local regions = {} --: vector<M_Region>
+    local list = self:cai():region_list();
+
+    for i = 0, list:num_items() - 1 do 
+        local name = list:item_at(i):name();
+        local Region = Model.getRegion(name);
+        table.insert(regions, Region);
+    end
+
+    return regions;
+end
+
 
 --v function(name: string) --> M_Faction
 function Model.getFaction(name)
