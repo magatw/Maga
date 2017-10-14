@@ -34,9 +34,7 @@ function Dummy.new(parent)
 
     --# assume self: M_Dummy
 
-    self.uic = function(self) --: M_Dummy
-        return dummy;
-    end
+    self.uic = dummy;
 
     Console.log("Dummy created for parent: "..parent:Id(), "UIC");
 
@@ -46,12 +44,12 @@ end
 
 --v function(self: M_Dummy, x: number, y: number)
 function Dummy.MoveTo(self, x, y) 
-    self:uic():MoveTo(x, y);
+    self.uic:MoveTo(x, y);
 end
 
 --v function(self: M_Dummy)
 function Dummy.Delete(self)
-    Util.delete(self:uic(), true); 
+    Util.delete(self.uic, true); 
 end
 
 

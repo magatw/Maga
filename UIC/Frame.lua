@@ -19,7 +19,6 @@ function Frame.new(name, parent)
     root:CreateComponent(name, "ui/campaign ui/finance_screen");
 
     local frame = UIComponent(root:Find(name));
-    local scroll = UIComponent(frame:Find("scroll_frame"));
 
     Util.delete( UIComponent(frame:Find("TabGroup")) );
     Util.delete( UIComponent(frame:Find("button_info_holder")) );
@@ -34,13 +33,8 @@ function Frame.new(name, parent)
 
     --# assume self: M_Frame
 
-    self.uic = function(self) --: M_Frame 
-        return frame;
-    end
-
-    self.scroll = function(self) --: M_Frame
-        return scroll;
-    end
+    self.uic = frame;
+    self.scroll = UIComponent(frame:Find("scroll_frame"));
 
     Console.log("Create Frame "..name, "UIC");
 
@@ -50,7 +44,7 @@ end
 
 --v function(self: M_Frame, w: number, h: number)
 function Frame.Resize(self, w, h) 
-    self:uic():Resize(w, h);
+    self.uic:Resize(w, h);
 end
 
 
@@ -64,7 +58,7 @@ function Frame.AddBottomBar(self)
     local temp = UIComponent(root:Find("MagaTemp"));
     local bar = find_uicomponent_by_table(temp, {"offers_panel", "small_bar"});
 
-    self:uic():Adopt(bar:Address());
+    self.uic:Adopt(bar:Address());
 
     self.bottomBar = function(self) --: M_Frame
         return bar;
@@ -75,13 +69,13 @@ end
 
 --v function(self: M_Frame, text: string)
 function Frame.SetTitle(self, text) 
-    local tx = find_uicomponent_by_table(self:uic(), {"title_plaque", "tx_finance"});
+    local tx = find_uicomponent_by_table(self.uic, {"title_plaque", "tx_finance"});
     tx:SetStateText(text);
 end
 
 --v function(self: M_Frame)
 function Frame.Delete(self)
-    Util.delete(self:uic(), true);
+    Util.delete(self.uic, true);
 end
 
 

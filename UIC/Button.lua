@@ -37,9 +37,7 @@ function Button.new(name, parent)
 
     --# assume self: M_Button
 
-    self.uic = function(self) --: M_Button 
-        return button;
-    end
+    self.uic = button;
 
     Console.log("Create Button: "..name, "UIC");
 
@@ -49,28 +47,28 @@ end
 
 --v function(self: M_Button)
 function Button.ClearSound(self)
-    self:uic():ClearSound();
+    self.uic:ClearSound();
 end
 
 --v function(self: M_Button, x: number, y: number)
 function Button.MoveTo(self, x, y) 
-    self:uic():MoveTo(x, y);
+    self.uic:MoveTo(x, y);
 end
 
 --v function(self: M_Button, state: string)
 function Button.SetState(self, state) 
-    self:uic():SetState(state);
+    self.uic:SetState(state);
 end
 
 --v function(self: M_Button, text: string)
 function Button.SetTooltipText(self, text) 
-    local saved = self:uic():CurrentState();
+    local saved = self.uic:CurrentState();
     
     -- Make sure the default tooltip "Cancel" will
     -- be replace by the custom one for each possible state
     for index, state in ipairs(States) do
         self:SetState(state);
-        self:uic():SetTooltipText(text);
+        self.uic:SetTooltipText(text);
     end
 
     self:SetState(saved);
@@ -79,12 +77,12 @@ end
 
 --v function(self: M_Button, e: UIC_EventName, cb: function())
 function Button.On(self, e, cb) 
-    Util.on(self:uic(), e, cb);
+    Util.on(self.uic, e, cb);
 end
 
 --v function(self: M_Button)
 function Button.Delete(self) 
-    Util.delete(self:uic(), true);
+    Util.delete(self.uic, true);
 end
 
 

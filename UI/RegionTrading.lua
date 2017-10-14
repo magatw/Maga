@@ -58,7 +58,7 @@ function RTFrame.create()
     frame:AddBottomBar();
     frame:SetTitle("Trade Regions");
 
-    local cancel = Button.new("cancel", frame:uic());
+    local cancel = Button.new("cancel", frame.uic);
     cancel:MoveTo(UIC.factionCancel:Position());
     
     cancel:On("click", function() 
@@ -66,7 +66,7 @@ function RTFrame.create()
     end)
 
 
-    local toggle = Button.new("toggle_map", frame:uic());
+    local toggle = Button.new("toggle_map", frame.uic);
     toggle:ClearSound();
     toggle:MoveTo(UIC.toggleMap:Position());
     toggle:SetTooltipText(UIC.toggleMap:GetTooltipText());

@@ -59,7 +59,7 @@ function BTR.create()
     BTR.dummy = Dummy.new(UIC.buttonSet);
     BTR.dummy:MoveTo(posX, posY);
 
-    BTR.button = Button.new("trade_region", BTR.dummy:uic());
+    BTR.button = Button.new("trade_region", BTR.dummy.uic);
     BTR.button:On("click", function() 
         Panel.open("RegionTrading");
         BTR.button:SetState("hover");

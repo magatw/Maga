@@ -31,9 +31,7 @@ function Image.new(name, parent)
 
     --# assume self: M_Image
 
-    self.uic = function(self) --: M_Image
-        return image;
-    end
+    self.uic = image;
 
     Console.log("Create Image: "..name, "UIC");
 
@@ -43,22 +41,22 @@ end
 
 --v function(self: M_Image, x: number, y: number)
 function Image.MoveTo(self, x, y)
-    self:uic():MoveTo(x, y);
+    self.uic:MoveTo(x, y);
 end
 
 --v function(self: M_Image, w: number, h: number)
 function Image.Resize(self, w, h)
-    self:uic():Resize(w, h);
+    self.uic:Resize(w, h);
 end
 
 --v function(self: M_Image, opacity: number)
 function Image.SetOpacity(self, opacity)
-    self:uic():SetOpacity(opacity);
+    self.uic:SetOpacity(opacity);
 end
 
 --v function(self: M_Image, visible: boolean)
 function Image.SetVisible(self, visible) 
-    self:uic():SetVisible(visible);
+    self.uic:SetVisible(visible);
 end
 
 
