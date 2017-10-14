@@ -7,6 +7,7 @@
 
 local Console = require("Core/Console");
 local Timer = require("Core/Timer");
+local RTLogic = require("Logic/RegionTrading");
 local Panel = require("UI/Panel");
 
 local DiplomacyDropdown = {};
@@ -20,6 +21,36 @@ function DiplomacyDropdown.init()
     local root = cm:ui_root();
     
     UIC.offer = find_uicomponent_by_table(root, {"diplomacy_dropdown", "offers_panel"});
+    UIC.factionLBox = find_uicomponent_by_table(root, {
+        "diplomacy_dropdown", "faction_panel",
+        "sortable_list_factions", "list_clip", "list_box"   
+    })
+
+    -- The panel automatically select the first faction of the lbox when opening
+    Timer.nextTick(function() 
+        local uic = UIComponent(UIC.factionLBox:Find(0));
+        DiplomacyDropdown.selectedFaction = string.gsub(uic:Id(), "faction_row_entry_", "");
+        RTLogic.updateAIFaction(DiplomacyDropdown.selectedFaction);
+    end)
+end
+
+function DiplomacyDropdown.updateSelectedFaction()
+    local faction --: string
+
+    for i = 0, UIC.factionLBox:ChildCount() - 1 do
+        local child = UIComponent(UIC.factionLBox:Find(i));
+        local state = child:CurrentState();
+
+        if state == "selected" or state == "selected_hover" then
+            faction = string.gsub(child:Id(), "faction_row_entry_", "");
+            break;
+        end
+    end
+
+    if DiplomacyDropdown.selectedFaction ~= faction then
+        DiplomacyDropdown.selectedFaction = faction;
+        RTLogic.updateAIFaction(faction);
+    end
 end
 
 function DiplomacyDropdown.loop() 
@@ -46,6 +77,14 @@ function DiplomacyDropdown.click(context)
             Console.log("Open offer panel", "UI");
             return;
         end
+
+        Timer.nextTick(function()
+            -- Faction can be selected by clicking on the listbox,
+            -- on a city map icon or a faction icon (i.e list of allies)
+            -- To keep track of the selected faction we look for a selected item
+            -- inside the lb one tick after the click event
+            DiplomacyDropdown.updateSelectedFaction();
+        end)
 
     else -- Offer panel is opened
         Timer.nextTick(function()
