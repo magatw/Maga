@@ -24,6 +24,8 @@ function RegionTrading.init()
     UIC.factionCancel = find_uicomponent_by_table(UIC.diplo, {
         "faction_panel", "both_buttongroup", "button_cancel"
     })
+
+    UIC.radar = find_uicomponent_by_table(root, {"campaign_tactical_map", "radar"});
 end
 
 
@@ -65,6 +67,11 @@ end
 --v function(mode: "open" | "close")
 function RegionTrading.setUI(mode)
     if mode == "open" then
+        -- Reveal the map
+        if not UIC.radar:Visible() then
+            UIC.toggleMap:SimulateClick();
+        end
+        
         UIC.offer:SetVisible(false);
 
         Console.log("UI set for Region Trading", "UI");
