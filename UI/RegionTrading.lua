@@ -11,6 +11,7 @@ local Timer = require("Core/Timer");
 local RTLogic = require("Logic/RegionTrading");
 local Button = require("UIC/Button");
 local Frame = require("UIC/Frame");
+local MapOverlay = require("UIC/MapOverlay");
 local Panel = require("UI/Panel");
 local Util = require("UI/Util");
 
@@ -212,6 +213,23 @@ function Map.setFactionIconVisibility(visible)
     end
 end
 
+function Map.addOverlay() 
+    Map.overlay = MapOverlay.new(UIC.map);
+
+    local color = nil --: "green" | "yellow"
+    local opacity = nil --: number
+
+    for key, data in pairs(RegionTrading.regionsList) do 
+        if data.owner == "player" then color = "yellow" else color = "green" end
+        if data.tradable then opacity = 100 else opacity = 50 end
+
+        Map.overlay:AddRegion(key, color);
+        Map.overlay:SetRegionOpacity(key, opacity);
+    end
+
+    Map.overlay:CorrectPriority();
+end
+
 
 --v function(mode: "open" | "close")
 function RegionTrading.setUI(mode)
@@ -232,7 +250,8 @@ function RegionTrading.setUI(mode)
         Map.setIconsVisibility("set");
         Map.setSettlementIconVisibility("set");
         Map.setFactionIconVisibility(false);
-
+        Map.addOverlay();
+        
         Console.log("UI set for Region Trading", "UI");
     elseif mode == "close" then
         UIC.offer:SetVisible(true);
@@ -246,6 +265,7 @@ function RegionTrading.setUI(mode)
         Map.setIconsVisibility("restore");
         Map.setSettlementIconVisibility("restore");
         Map.setFactionIconVisibility(true);
+        Map.overlay:Clear();
 
         Console.log("UI restore from Region Trading mod", "UI");
     end
