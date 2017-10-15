@@ -7,11 +7,13 @@
 
 local Console = require("Core/Console");
 local Event = require("Core/Event");
+local Util = require("Core/Util");
 local Model = require("Model");
 
 local RegionTrading = {};
 local Player = nil --: M_Faction
 local AI = nil --: M_Faction
+local VisibleRegions = {} --: vector<string>
 
 
 function RegionTrading.init()
@@ -54,6 +56,11 @@ function RegionTrading.updateAIFaction(faction)
     Console.log("Region Trading AI Faction set to "..faction, "Logic");
 end
 
+--v function(visible: vector<string>)
+function RegionTrading.updateVisibleRegions(visible) 
+    VisibleRegions = visible;
+end
+
 function RegionTrading.canTradeWithAI() 
     if Player:IsHorde() or AI:IsHorde() or Player:AtWarWith(AI) then
         return false;
@@ -74,10 +81,12 @@ function RegionTrading.getRegionsList()
 
     for index, Region in ipairs(AI:Regions()) do 
         local n = Region:Name();
-        local t, r = RegionTrading.isTradableAI(Region);
-        list[n] = {owner = "ai", tradable = t, reason = r};
+        if Util.indexOf(VisibleRegions, n) > -1 then
+            local t, r = RegionTrading.isTradableAI(Region);
+            list[n] = {owner = "ai", tradable = t, reason = r};
+        end
     end
-
+    
     return list;
 end
 
@@ -89,4 +98,5 @@ return {
     canTradeWithAI = RegionTrading.canTradeWithAI;
     getRegionsList = RegionTrading.getRegionsList;
     updateAIFaction = RegionTrading.updateAIFaction;
+    updateVisibleRegions = RegionTrading.updateVisibleRegions;
 }

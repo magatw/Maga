@@ -19,6 +19,9 @@ local RTFrame = {};
 local Map = {};
 local UIC = {};
 
+-- forward declaration
+--# assume Map.getVisibleRegions: function() --> vector<string>
+
 
 -- Determine which icons would be visible on the map for region trading
 -- cbox item id => wanted state (active = not visible, selected = visible)
@@ -39,8 +42,6 @@ Map.detailsIconsInitDone = false;
 
 
 function RegionTrading.init() 
-    RegionTrading.regionsList = RTLogic.getRegionsList();
-
     -- UIC
     local root = cm:ui_root();
 
@@ -70,6 +71,9 @@ function RegionTrading.init()
         local uic = UIComponent(iconsParent:Find(i));
         UIC.iconsCbox[uic:Id()] = uic;
     end
+
+    RTLogic.updateVisibleRegions(Map.getVisibleRegions());
+    RegionTrading.regionsList = RTLogic.getRegionsList();
 end
 
 
@@ -116,6 +120,22 @@ function Map.getRegionKeyFromID(id)
     if index then name = string.sub(name, 1, index - 1) end
 
     return name;
+end
+
+function Map.getVisibleRegions() 
+    local list = {} --: vector<string>
+    
+    for i = 0, UIC.map:ChildCount() - 1 do
+        local icon = UIComponent(UIC.map:Find(i));
+        local id = icon:Id();
+
+        if string.find(id, "radar_icon_settlement") then
+            local key = Map.getRegionKeyFromID(id);
+            table.insert(list, key);
+        end
+    end
+
+    return list;
 end
 
 --v function(icon: CA_UIC)
