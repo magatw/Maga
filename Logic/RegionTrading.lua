@@ -70,7 +70,7 @@ function RegionTrading.canTradeWithAI()
 end
 
 
-function RegionTrading.getRegionsList() 
+function RegionTrading.getTradeData() 
     local list = {} --: map<string, {owner: string, tradable: boolean, reason: string}>
 
     for index, Region in ipairs(Player:Regions()) do 
@@ -96,7 +96,7 @@ Event.addListener("UICreated", RegionTrading.init);
 
 return {
     canTradeWithAI = RegionTrading.canTradeWithAI;
-    getRegionsList = RegionTrading.getRegionsList;
+    getTradeData = RegionTrading.getTradeData;
     updateAIFaction = RegionTrading.updateAIFaction;
     updateVisibleRegions = RegionTrading.updateVisibleRegions;
 }

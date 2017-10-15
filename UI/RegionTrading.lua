@@ -75,7 +75,7 @@ function RegionTrading.init()
     RTLogic.updateVisibleRegions(Map.getVisibleRegions());
 
     RegionTrading.stopLoop = false;
-    RegionTrading.regionsList = RTLogic.getRegionsList();
+    RegionTrading.tradeData = RTLogic.getTradeData();
 
     Map.detailsIconsInitDone = false;
 end
@@ -173,7 +173,7 @@ end
 --v function(icon: CA_UIC)
 function Map.initSettlementIcon(icon) 
     local key = Map.getRegionKeyFromID(icon:Id());
-    local data = RegionTrading.regionsList[key];
+    local data = RegionTrading.tradeData[key];
 
     -- region is not present in the list, hide it and return
     if not data then return icon:SetVisible(false) end
@@ -250,7 +250,7 @@ function Map.addOverlay()
     local color = nil --: "green" | "yellow"
     local opacity = nil --: number
 
-    for key, data in pairs(RegionTrading.regionsList) do 
+    for key, data in pairs(RegionTrading.tradeData) do 
         if data.owner == "player" then color = "yellow" else color = "green" end
         if data.tradable then opacity = 100 else opacity = 50 end
 
