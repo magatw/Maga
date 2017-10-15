@@ -56,6 +56,8 @@ function Text.new(case, align, parent)
         temp = UIComponent(root:Find("MagaTemp"));
         text = UIComponent(temp:Find("dy_filename"));
     end
+    
+    text:SetStateText("");
 
     parent:Adopt(text:Address());
     Util.delete(temp);
@@ -86,6 +88,11 @@ end
 --v function(self: M_Text, x: number, y: number)
 function Text.MoveTo(self, x, y) 
     self.uic:MoveTo(x, y);
+end
+
+--v function(self: M_Text) --> (number, number)
+function Text.Position(self) 
+    return self.uic:Position();
 end
 
 --v function(self: M_Text, w: number, h: number)
