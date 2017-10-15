@@ -39,7 +39,6 @@ Map.iconsCBoxState = {} --: map<string, string>
 
 -- List of visible settlement icons
 Map.settlementIcons = {} --: vector<CA_UIC>
-Map.detailsIconsInitDone = false;
 
 
 function RegionTrading.init() 
@@ -74,7 +73,11 @@ function RegionTrading.init()
     end
 
     RTLogic.updateVisibleRegions(Map.getVisibleRegions());
+
+    RegionTrading.stopLoop = false;
     RegionTrading.regionsList = RTLogic.getRegionsList();
+
+    Map.detailsIconsInitDone = false;
 end
 
 
@@ -137,6 +140,34 @@ function Map.getVisibleRegions()
     end
 
     return list;
+end
+
+function Map.initDetailsIcon() 
+    if not UIC.radar:Visible() then return end
+
+    -- The details icon are created when the player scroll in
+    -- An settlement icon with more then 4 childs have 
+    -- his details icon created
+    if Map.settlementIcons[1]:ChildCount() < 4 then return end
+
+    for i, uic in ipairs(Map.settlementIcons) do
+        local main = UIComponent(uic:Find("main_icon"));
+        local bar = find_uicomponent_by_table(uic, {"details_icon", "name_bar"});
+        bar:SetInteractive(true);
+        bar:SetTooltipText(main:GetTooltipText());
+    end
+
+    Map.detailsIconsInitDone = true;
+end
+
+function Map.restoreDetailsIcons()
+    if not Map.detailsIconsInitDone then return end
+
+    for i, uic in ipairs(Map.settlementIcons) do
+        local main = UIComponent(uic:Find("main_icon"));
+        local bar = find_uicomponent_by_table(uic, {"details_icon", "name_bar"});
+        bar:SetInteractive(false);
+    end
 end
 
 --v function(icon: CA_UIC)
@@ -265,12 +296,22 @@ function RegionTrading.setUI(mode)
         Map.setIconsVisibility("restore");
         Map.setSettlementIconVisibility("restore");
         Map.setFactionIconVisibility(true);
+        Map.restoreDetailsIcons();
         Map.overlay:Clear();
 
         Console.log("UI restore from Region Trading mod", "UI");
     end
 end
 
+function RegionTrading.loop() 
+    if RegionTrading.stopLoop then return end;
+
+    if not Map.detailsIconsInitDone then
+        Map.initDetailsIcon();
+    end
+
+    Timer.nextTick(RegionTrading.loop);
+end
 
 --v function(context: CA_UIContext)
 function RegionTrading.click(context)
@@ -297,12 +338,15 @@ function RegionTrading.open()
 
     RegionTrading.init();
     RegionTrading.setUI("open");
-    RTFrame.create();
+    RegionTrading.loop();
 
+    RTFrame.create();
+    
     return true;
 end
 
 function RegionTrading.close()
+    RegionTrading.stopLoop = true;
     RegionTrading.setUI("close");
     RTFrame.delete();
 
