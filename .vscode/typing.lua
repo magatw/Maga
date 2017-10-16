@@ -86,6 +86,7 @@
 --# assume CA_UIC.GetTooltipText: method() --> string
 --# assume CA_UIC.Id: method() --> string
 --# assume CA_UIC.MoveTo: method(x: number, y: number)
+--# assume CA_UIC.Parent: method() --> CA_Component
 --# assume CA_UIC.Position: method() --> (number, number)
 --# assume CA_UIC.Resize: method(w: number, h: number)
 --# assume CA_UIC.SetInteractive: method(interactive: boolean)

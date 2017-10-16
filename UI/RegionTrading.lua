@@ -12,6 +12,7 @@ local RTLogic = require("Logic/RegionTrading");
 local Button = require("UIC/Button");
 local Frame = require("UIC/Frame");
 local MapOverlay = require("UIC/MapOverlay");
+local Text = require("UIC/Text");
 local Panel = require("UI/Panel");
 local Util = require("UI/Util");
 
@@ -23,6 +24,11 @@ local UIC = {};
 -- forward declaration
 --# assume Map.getVisibleRegions: function() --> vector<string>
 
+
+RTFrame.selectedRegion = {
+    player = nil;
+    ai = nil;
+} --: {player: string, ai: string}
 
 -- Determine which icons would be visible on the map for region trading
 -- cbox item id => wanted state (active = not visible, selected = visible)
@@ -72,11 +78,14 @@ function RegionTrading.init()
         UIC.iconsCbox[uic:Id()] = uic;
     end
 
+    -- Variables
     RTLogic.updateVisibleRegions(Map.getVisibleRegions());
 
     RegionTrading.stopLoop = false;
     RegionTrading.tradeData = RTLogic.getTradeData();
 
+    RTFrame.selectedRegion.player = nil;
+    RTFrame.selectedRegion.ai = nil;
     Map.detailsIconsInitDone = false;
 end
 
@@ -106,12 +115,44 @@ function RTFrame.create()
         toggle:SetState("hover");
     end)
 
+    local player = Text.new("uppercase", "center", frame.uic);
+    local ai = Text.new("uppercase", "center", frame.uic);
+    local textX, textY = player:Position();
+
+    player:MoveTo(textX - 200, textY + 25);
+    ai:MoveTo(textX + 200, textY + 25);
+
+    player:On("click", function() 
+        RTFrame.selectedRegion.player = nil;
+        player:SetStateText("");
+    end)
+
+    ai:On("click", function() 
+        RTFrame.selectedRegion.ai = nil;
+        ai:SetStateText("");
+    end)
 
     RTFrame.frame = frame;
+    RTFrame.player = player;
+    RTFrame.ai = ai;
 end
 
 function RTFrame.delete() 
     RTFrame.frame:Delete();
+end
+
+--v function(key: string)
+function RTFrame.onRegionClick(key) 
+    local data = RegionTrading.tradeData[key];
+    if not data.tradable then return end
+
+    if data.owner == "player" then
+        RTFrame.selectedRegion.player = key;
+        RTFrame.player:SetStateText(key);
+    elseif data.owner == "ai" then
+        RTFrame.selectedRegion.ai = key;
+        RTFrame.ai:SetStateText(key);  
+    end
 end
 
 
@@ -315,7 +356,25 @@ end
 
 --v function(context: CA_UIContext)
 function RegionTrading.click(context)
+    local uic = nil --: CA_UIC
+    local name = context.string;
 
+    if name == "main_icon" or name == "name_bar" then
+        uic = UIComponent(context.component);
+        local id = nil --: string
+
+        if name == "main_icon" then
+            id = UIComponent(uic:Parent()):Id();
+        end
+
+        if name == "name_bar" then
+            local parent = UIComponent(uic:Parent());
+            id = UIComponent(parent:Parent()):Id();
+        end
+
+        local region = Map.getRegionKeyFromID(id);
+        RTFrame.onRegionClick(region);
+    end
 end
 
 function RegionTrading.tacticalMapOpened()
