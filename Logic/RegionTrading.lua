@@ -71,19 +71,21 @@ end
 
 
 function RegionTrading.getTradeData() 
-    local list = {} --: map<string, {owner: string, tradable: boolean, reason: string}>
+    local list = {} --: map<string, {name: string, owner: string, tradable: boolean, reason: string}>
 
     for index, Region in ipairs(Player:Regions()) do 
         local n = Region:Name();
+        local d = Region:DisplayedName();
         local t, r = RegionTrading.isTradablePlayer(Region);
-        list[n] = {owner = "player", tradable = t, reason = r};
+        list[n] = {name = d, owner = "player", tradable = t, reason = r};
     end
 
     for index, Region in ipairs(AI:Regions()) do 
         local n = Region:Name();
         if Util.indexOf(VisibleRegions, n) > -1 then
+            local d = Region:DisplayedName();
             local t, r = RegionTrading.isTradableAI(Region);
-            list[n] = {owner = "ai", tradable = t, reason = r};
+            list[n] = {name = d, owner = "ai", tradable = t, reason = r};
         end
     end
     
