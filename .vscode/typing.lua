@@ -62,6 +62,8 @@
 
 -- REGION
 --# assume CA_Region.garrison_residence: method() --> CA_GarrisonResidence
+--# assume CA_Region.governor: method() --> CA_Character
+--# assume CA_Region.has_governor: method() --> boolean
 --# assume CA_Region.name: method() --> string
 
 
@@ -132,6 +134,7 @@
 --# assume CM.name: "main_attila"
 --# assume CM.remove_listener: method(handler: string)
 --# assume CM.set_character_immortality: method(lookup: string, immortal: boolean)
+--# assume CM.transfer_region_to_faction: method(region: string, faction: string)
 --# assume CM.ui_root: method() --> CA_UIC
 
 

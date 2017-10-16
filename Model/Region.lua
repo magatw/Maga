@@ -59,9 +59,32 @@ function Region.DisplayedName(self)
     return RegionsName[self:Name()];
 end
 
+--v function(self: M_Region) --> M_Character
+function Region.Governor(self) 
+    if not self:cai():has_governor() then return nil end
+    
+    local cqi = self:cai():governor():cqi();
+    return Model.getCharacter(cqi);
+end
+
 --v function(self: M_Region) --> boolean
 function Region.IsUnderSiege(self)
     return self:cai():garrison_residence():is_under_siege();
+end
+
+--v function(self: M_Region, faction: string)
+function Region.Transfer(self, faction) 
+    local Governor = self:Governor();
+
+    -- Transfering the province capital will kill the governor
+    -- to avoid it we temporarily set him immortal
+    if Governor then Governor:SetImmortal(true) end
+
+    cm:transfer_region_to_faction(self:Name(), faction);
+    
+    if Governor then Governor:SetImmortal(false) end
+
+    Console.log("Transfer region "..self:Name().." to "..faction, "Model");
 end
 
 
