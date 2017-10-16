@@ -8,6 +8,7 @@
 local Console = require("Core/Console");
 local Event = require("Core/Event");
 local Model = require("Model");
+local RegionsName = require("Local").RegionsName;
 
 local RegionModel = {};
 local Region = {} --# assume Region: M_Region
@@ -51,6 +52,11 @@ end
 --v function(self: M_Region) --> CA_Region
 function Region.cai(self)
     return cm:model():world():region_manager():region_by_key(self:Name());
+end
+
+--v function(self: M_Region) --> string
+function Region.DisplayedName(self)
+    return RegionsName[self:Name()];
 end
 
 --v function(self: M_Region) --> boolean
