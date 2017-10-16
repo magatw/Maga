@@ -8,9 +8,13 @@
 
 -- CLASS
 --# assume global class M_Model
+--# assume global class M_Character
 --# assume global class M_Faction
 --# assume global class M_Region
 
+
+-- Model/Character
+--# assume M_Model.getCharacter: function(cqi: number) --> M_Character
 
 -- Model/Faction
 --# assume M_Model.getFaction: function(name: string) --> M_Faction

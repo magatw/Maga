@@ -14,16 +14,18 @@
 --# assume global class CA_RegionList
 --# assume global class CA_RegionManager
 --# assume global class CA_GarrisonResidence
+--# assume global class CA_Character
 --# assume global class CA_Faction
 --# assume global class CA_UIC
 --# assume global class CA_Component
+--# assume global class CA_CharacterContext
 --# assume global class CA_TimeTriggerContext
 --# assume global class CA_UIContext
 
 
 -- TYPES
 --# type global CA_EventName = 
---# "ComponentLClickUp"     | "ComponentMouseOn"    |
+--# "CharacterCreated"      | "ComponentLClickUp"     | "ComponentMouseOn"    |
 --# "PanelClosedCampaign"   | "PanelOpenedCampaign" |
 --# "TimeTrigger"           | "UICreated"
 
@@ -32,12 +34,14 @@
 
 
 -- CONTEXT
+--# assume CA_CharacterContext.character: method() --> CA_Character
 --# assume CA_TimeTriggerContext.string: string
 --# assume CA_UIContext.component: CA_Component
 --# assume CA_UIContext.string: string
 
 
 -- MODEL
+--# assume CA_Model.character_for_command_queue_index: method(cqi: number) --> CA_Character
 --# assume CA_Model.is_player_turn: method() --> boolean
 --# assume CA_Model.world: method() --> CA_World
 
@@ -65,11 +69,24 @@
 --# assume CA_GarrisonResidence.is_under_siege: method() --> boolean
 
 
+-- CHARACTER
+--# assume CA_Character.age: method() --> number
+--# assume CA_Character.battles_won: method() --> number
+--# assume CA_Character.character_type: method(ctype: string) --> boolean
+--# assume CA_Character.cqi: method() --> number
+--# assume CA_Character.faction: method() --> CA_Faction
+--# assume CA_Character.get_forename: method() --> string
+--# assume CA_Character.get_surname: method() --> string
+--# assume CA_Character.is_null_interface: method() --> boolean
+--# assume CA_Character.rank: method() --> number
+
+
 -- FACTION
 --# assume CA_Faction.at_war_with: method(faction: CA_Faction) --> boolean
 --# assume CA_Faction.has_home_region: method() --> boolean
 --# assume CA_Faction.home_region: method() --> CA_Region
 --# assume CA_Faction.is_horde: method() --> boolean
+--# assume CA_Faction.name: method() --> string
 --# assume CA_Faction.region_list: method() --> CA_RegionList
 
 

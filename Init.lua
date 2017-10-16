@@ -8,6 +8,7 @@
 require("Local");
 
 require("Model");
+require("Model/Character");
 require("Model/Region");
 require("Model/Faction");
 
