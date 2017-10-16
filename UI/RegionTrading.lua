@@ -148,10 +148,10 @@ function RTFrame.onRegionClick(key)
 
     if data.owner == "player" then
         RTFrame.selectedRegion.player = key;
-        RTFrame.player:SetStateText(key);
+        RTFrame.player:SetStateText(data.name);
     elseif data.owner == "ai" then
         RTFrame.selectedRegion.ai = key;
-        RTFrame.ai:SetStateText(key);  
+        RTFrame.ai:SetStateText(data.name);  
     end
 end
 
