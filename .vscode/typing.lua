@@ -131,6 +131,7 @@
 --# assume CM.model: method() --> CA_Model
 --# assume CM.name: "main_attila"
 --# assume CM.remove_listener: method(handler: string)
+--# assume CM.set_character_immortality: method(lookup: string, immortal: boolean)
 --# assume CM.ui_root: method() --> CA_UIC
 
 

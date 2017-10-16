@@ -80,6 +80,11 @@ function Character.cai(self)
     return cm:model():character_for_command_queue_index(self.cqi);
 end
 
+--v function(self: M_Character, immortal: boolean)
+function Character.SetImmortal(self, immortal)
+    cm:set_character_immortality("character_cqi:"..self.cqi, immortal);
+end
+
 
 --v function(cqi: number) --> M_Character
 function Model.getCharacter(cqi)
