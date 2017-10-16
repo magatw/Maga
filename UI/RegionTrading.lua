@@ -79,7 +79,7 @@ function RegionTrading.init()
     end
 
     -- Variables
-    RTLogic.updateVisibleRegions(Map.getVisibleRegions());
+    RTLogic.setVisibleRegions(Map.getVisibleRegions());
 
     RegionTrading.stopLoop = false;
     RegionTrading.tradeData = RTLogic.getTradeData();

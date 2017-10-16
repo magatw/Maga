@@ -41,7 +41,7 @@ function DiplomacyDropdown.init()
     Timer.nextTick(function() 
         local uic = UIComponent(UIC.factionLBox:Find(0));
         DiplomacyDropdown.selectedFaction = string.gsub(uic:Id(), "faction_row_entry_", "");
-        RTLogic.updateAIFaction(DiplomacyDropdown.selectedFaction);
+        RTLogic.setAIFaction(DiplomacyDropdown.selectedFaction);
         BTR.updateFaction();
     end)
 end
@@ -107,7 +107,7 @@ function DiplomacyDropdown.updateSelectedFaction()
 
     if DiplomacyDropdown.selectedFaction ~= faction then
         DiplomacyDropdown.selectedFaction = faction;
-        RTLogic.updateAIFaction(faction);
+        RTLogic.setAIFaction(faction);
         BTR.updateFaction();
     end
 end

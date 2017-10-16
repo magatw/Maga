@@ -51,13 +51,13 @@ end
 
 
 --v function(faction: string)
-function RegionTrading.updateAIFaction(faction) 
+function RegionTrading.setAIFaction(faction) 
     AI = Model.getFaction(faction);
     Console.log("Region Trading AI Faction set to "..faction, "Logic");
 end
 
 --v function(visible: vector<string>)
-function RegionTrading.updateVisibleRegions(visible) 
+function RegionTrading.setVisibleRegions(visible) 
     VisibleRegions = visible;
 end
 
@@ -99,6 +99,6 @@ Event.addListener("UICreated", RegionTrading.init);
 return {
     canTradeWithAI = RegionTrading.canTradeWithAI;
     getTradeData = RegionTrading.getTradeData;
-    updateAIFaction = RegionTrading.updateAIFaction;
-    updateVisibleRegions = RegionTrading.updateVisibleRegions;
+    setAIFaction = RegionTrading.setAIFaction;
+    setVisibleRegions = RegionTrading.setVisibleRegions;
 }
