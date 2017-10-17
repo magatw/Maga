@@ -127,6 +127,8 @@ end
 
 --v function(context: CA_UIContext)
 function DiplomacyDropdown.click(context) 
+    if Panel.isOpened("RegionTrading") then return end
+    
     local name = context.string;
 
     if not DiplomacyDropdown.offerPanelOpened then
