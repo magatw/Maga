@@ -22,6 +22,7 @@ local Map = {};
 local UIC = {};
 
 -- forward declaration
+--# assume RegionTrading.closeDiplomacy: function()
 --# assume Map.getVisibleRegions: function() --> vector<string>
 
 
@@ -54,6 +55,9 @@ function RegionTrading.init()
     UIC.diplo = UIComponent(root:Find("diplomacy_dropdown"));
     UIC.offer = UIComponent(UIC.diplo:Find("offers_panel"));
     UIC.toggleMap = UIComponent(UIC.offer:Find("button_tactical_map"));
+    UIC.factionOK = find_uicomponent_by_table(UIC.diplo, {
+        "faction_panel", "both_buttongroup", "button_ok"
+    })
     UIC.factionCancel = find_uicomponent_by_table(UIC.diplo, {
         "faction_panel", "both_buttongroup", "button_cancel"
     })
@@ -98,6 +102,13 @@ function RTFrame.create()
     frame:AddBottomBar();
     frame:SetTitle("Trade Regions");
 
+    local valid = Button.new("valid", frame.uic);
+    valid:MoveTo(UIC.factionOK:Position());
+
+    valid:On("click", function() 
+        RegionTrading.closeDiplomacy();
+    end)
+
     local cancel = Button.new("cancel", frame.uic);
     cancel:MoveTo(UIC.factionCancel:Position());
     
@@ -133,6 +144,7 @@ function RTFrame.create()
     end)
 
     RTFrame.frame = frame;
+    RTFrame.valid = valid;
     RTFrame.player = player;
     RTFrame.ai = ai;
 end
@@ -302,6 +314,22 @@ function Map.addOverlay()
     Map.overlay:CorrectPriority();
 end
 
+
+function RegionTrading.closeDiplomacy() 
+    local root = cm:ui_root();
+    local offerCancel = find_uicomponent_by_table(UIC.offer, {
+        "offers_list_panel", "button_set1", "button_cancel"
+    })
+
+    UIC.offer:SetVisible(false);
+
+    Panel.close("RegionTrading");
+    offerCancel:SimulateClick();
+
+    Timer.nextTick(function() 
+        UIC.factionCancel:SimulateClick();
+    end)
+end
 
 --v function(mode: "open" | "close")
 function RegionTrading.setUI(mode)
