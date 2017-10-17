@@ -44,6 +44,11 @@ function Image.MoveTo(self, x, y)
     self.uic:MoveTo(x, y);
 end
 
+--v function(self: M_Image) --> (number, number)
+function Image.Position(self) 
+    return self.uic:Position();
+end
+
 --v function(self: M_Image, w: number, h: number)
 function Image.Resize(self, w, h)
     self.uic:Resize(w, h);
