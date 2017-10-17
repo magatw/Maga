@@ -11,6 +11,7 @@ local Timer = require("Core/Timer");
 local RTLogic = require("Logic/RegionTrading");
 local Button = require("UIC/Button");
 local Frame = require("UIC/Frame");
+local Image = require("UIC/Image");
 local MapOverlay = require("UIC/MapOverlay");
 local Text = require("UIC/Text");
 local Panel = require("UI/Panel");
@@ -145,10 +146,23 @@ function RTFrame.create()
         RTFrame.update();
     end)
 
+    local gift = Image.new("gift", frame.uic);
+    local trade = Image.new("trade", frame.uic);
+    gift:SetVisible(false);
+    trade:SetVisible(false);
+
+    local iconX = gift:Position();
+    local iconY = textY + 20;
+    gift:MoveTo(iconX, iconY);
+    trade:MoveTo(iconX, iconY);
+
+
     RTFrame.frame = frame;
     RTFrame.valid = valid;
     RTFrame.player = player;
     RTFrame.ai = ai;
+    RTFrame.gift = gift;
+    RTFrame.trade = trade;
 end
 
 function RTFrame.delete() 
@@ -157,8 +171,17 @@ end
 
 function RTFrame.update() 
     RTFrame.valid:SetState("inactive");
+    RTFrame.gift:SetVisible(false);
+    RTFrame.trade:SetVisible(false);
+    
     if not RTFrame.selectedRegion.player then return end
 
+    if RTFrame.selectedRegion.ai then
+        RTFrame.trade:SetVisible(true);
+    else
+        RTFrame.gift:SetVisible(true);
+    end
+    
     RTFrame.valid:SetState("active");
 end
 
