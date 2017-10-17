@@ -69,7 +69,6 @@ function RegionTrading.canTradeWithAI()
     return true;
 end
 
-
 function RegionTrading.getTradeData() 
     local list = {} --: map<string, {name: string, owner: string, tradable: boolean, reason: string}>
 
@@ -92,6 +91,17 @@ function RegionTrading.getTradeData()
     return list;
 end
 
+--v function(region: string)
+function RegionTrading.gift(region)
+    Model.getRegion(region):Transfer(AI:Name());
+end
+
+--v function(regionPlayer: string, regionAI: string)
+function RegionTrading.trade(regionPlayer, regionAI)
+    Model.getRegion(regionPlayer):Transfer(AI:Name());
+    Model.getRegion(regionAI):Transfer(Player:Name());
+end
+
 
 Event.addListener("UICreated", RegionTrading.init);
 
@@ -99,6 +109,8 @@ Event.addListener("UICreated", RegionTrading.init);
 return {
     canTradeWithAI = RegionTrading.canTradeWithAI;
     getTradeData = RegionTrading.getTradeData;
+    gift = RegionTrading.gift;
     setAIFaction = RegionTrading.setAIFaction;
     setVisibleRegions = RegionTrading.setVisibleRegions;
+    trade = RegionTrading.trade;
 }
