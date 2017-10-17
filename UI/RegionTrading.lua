@@ -23,6 +23,8 @@ local UIC = {};
 
 -- forward declaration
 --# assume RegionTrading.closeDiplomacy: function()
+--# assume RTFrame.update: function()
+--# assume RTFrame.onValidClick: function()
 --# assume Map.getVisibleRegions: function() --> vector<string>
 
 
@@ -104,11 +106,9 @@ function RTFrame.create()
 
     local valid = Button.new("valid", frame.uic);
     valid:MoveTo(UIC.factionOK:Position());
-
-    valid:On("click", function() 
-        RegionTrading.closeDiplomacy();
-    end)
-
+    valid:SetState("inactive");
+    valid:On("click", RTFrame.onValidClick);
+    
     local cancel = Button.new("cancel", frame.uic);
     cancel:MoveTo(UIC.factionCancel:Position());
     
@@ -136,11 +136,13 @@ function RTFrame.create()
     player:On("click", function() 
         RTFrame.selectedRegion.player = nil;
         player:SetStateText("");
+        RTFrame.update();
     end)
 
     ai:On("click", function() 
         RTFrame.selectedRegion.ai = nil;
         ai:SetStateText("");
+        RTFrame.update();
     end)
 
     RTFrame.frame = frame;
@@ -151,6 +153,13 @@ end
 
 function RTFrame.delete() 
     RTFrame.frame:Delete();
+end
+
+function RTFrame.update() 
+    RTFrame.valid:SetState("inactive");
+    if not RTFrame.selectedRegion.player then return end
+
+    RTFrame.valid:SetState("active");
 end
 
 --v function(key: string)
@@ -165,6 +174,23 @@ function RTFrame.onRegionClick(key)
         RTFrame.selectedRegion.ai = key;
         RTFrame.ai:SetStateText(data.name);  
     end
+
+    RTFrame.update();
+end
+
+function RTFrame.onValidClick()
+    local player = RTFrame.selectedRegion.player;
+    local ai = RTFrame.selectedRegion.ai;
+
+    if not player then return end
+
+    if ai then 
+        RTLogic.trade(player, ai);
+    else 
+        RTLogic.gift(player);
+    end
+
+    RegionTrading.closeDiplomacy();
 end
 
 
