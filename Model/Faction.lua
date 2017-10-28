@@ -5,12 +5,24 @@
 -- Faction Model Class
 -- ===========================================================================
 
+--# type local IFactionData = {
+--# RegionTransfered: number   
+--# }
+
+--# type local IncrementKey = "RegionTransfered"
+
+
 local Console = require("Core/Console");
 local Model = require("Model");
 
 local FactionModel = {};
 local Faction = {} --# assume Faction: M_Faction
 local Factions = {} --: map<string, M_Faction>
+local FactionsData = {} --: map<string, IFactionData>
+
+local Shema = {
+    RegionTransfered = 0;
+} --: const IFactionData
 
 
 --v function(name: string) --> M_Faction
@@ -31,6 +43,7 @@ function FactionModel.new(name)
     Console.log("Create Faction: "..name, "Model");
     
     Factions[name] = self;
+    FactionsData[name] = FactionsData[name] or Shema;
     return self;
 end
 
@@ -58,6 +71,12 @@ function Faction.IsHorde(self)
     return self:cai():is_horde();
 end
 
+--v function(self: M_Faction, key: IncrementKey)
+function Faction.Increment(self, key)
+    local data = FactionsData[self:Name()];
+    data[key] = data[key] + 1;
+end
+
 --v function(self: M_Faction) --> vector<M_Region>
 function Faction.Regions(self) 
     local regions = {} --: vector<M_Region>
@@ -70,6 +89,11 @@ function Faction.Regions(self)
     end
 
     return regions;
+end
+
+--v function(self: M_Faction) --> number
+function Faction.RegionTransfered(self) 
+    return FactionsData[self:Name()].RegionTransfered;
 end
 
 
