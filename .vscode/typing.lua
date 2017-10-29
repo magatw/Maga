@@ -19,6 +19,7 @@
 --# assume global class CA_UIC
 --# assume global class CA_Component
 --# assume global class CA_CharacterContext
+--# assume global class CA_FactionContext
 --# assume global class CA_TimeTriggerContext
 --# assume global class CA_UIContext
 
@@ -26,7 +27,7 @@
 -- TYPES
 --# type global CA_EventName = 
 --# "CharacterCreated"      | "ComponentLClickUp"     | "ComponentMouseOn"    |
---# "PanelClosedCampaign"   | "PanelOpenedCampaign" |
+--# "FactionTurnStart"      | "PanelClosedCampaign"   | "PanelOpenedCampaign" |
 --# "TimeTrigger"           | "UICreated"
 
 
@@ -35,6 +36,7 @@
 
 -- CONTEXT
 --# assume CA_CharacterContext.character: method() --> CA_Character
+--# assume CA_FactionContext.faction: method() --> CA_Faction
 --# assume CA_TimeTriggerContext.string: string
 --# assume CA_UIContext.component: CA_Component
 --# assume CA_UIContext.string: string
@@ -88,6 +90,7 @@
 --# assume CA_Faction.has_home_region: method() --> boolean
 --# assume CA_Faction.home_region: method() --> CA_Region
 --# assume CA_Faction.is_horde: method() --> boolean
+--# assume CA_Faction.is_human: method() --> boolean
 --# assume CA_Faction.name: method() --> string
 --# assume CA_Faction.region_list: method() --> CA_RegionList
 
@@ -134,9 +137,9 @@
 --# assume CM.name: "main_attila"
 --# assume CM.remove_listener: method(handler: string)
 --# assume CM.set_character_immortality: method(lookup: string, immortal: boolean)
+--# assume CM.set_faction_name_override: method(faction: string, name: string)
 --# assume CM.transfer_region_to_faction: method(region: string, faction: string)
 --# assume CM.ui_root: method() --> CA_UIC
---# assume CM.set_faction_name_override: method(faction: string, name: string)
 
 
 -- GLOBAL FUNCTIONS
