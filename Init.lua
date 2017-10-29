@@ -14,3 +14,5 @@ require("Model/Faction");
 
 require("UI/DiplomacyDropdown");
 require("UI/RegionTrading");
+
+require("Logic/DynamicFactionName");
