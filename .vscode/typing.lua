@@ -136,6 +136,7 @@
 --# assume CM.set_character_immortality: method(lookup: string, immortal: boolean)
 --# assume CM.transfer_region_to_faction: method(region: string, faction: string)
 --# assume CM.ui_root: method() --> CA_UIC
+--# assume CM.set_faction_name_override: method(faction: string, name: string)
 
 
 -- GLOBAL FUNCTIONS
